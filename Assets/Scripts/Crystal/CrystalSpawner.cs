@@ -8,7 +8,7 @@ public class CrystalSpawner : MonoBehaviour
     private Vector3 spawnArea = new Vector3(10, 10, 10);
     void Start()
     {
-        //InitialResource();
+        InitialResource();
         
         InvokeRepeating("SpawnResource", 1f, 1f);
     }
@@ -26,7 +26,7 @@ public class CrystalSpawner : MonoBehaviour
         Vector3 spawnPositon = new Vector3
             (
                 Random.Range(-spawnArea.x, spawnArea.x),
-                0,
+                0.39f,
                 Random.Range(-spawnArea.z, spawnArea.z)
             );
         Instantiate(Crystal, spawnPositon, Quaternion.identity);
