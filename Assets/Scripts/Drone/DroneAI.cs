@@ -34,7 +34,7 @@ public class DroneAI : MonoBehaviour
         {
             SearchResource();
         }
-        if (!_navMeshDrone.pathPending && _navMeshDrone.remainingDistance <= _navMeshDrone.stoppingDistance)
+        if (!_navMeshDrone.pathPending && _navMeshDrone.remainingDistance <= 0.1f)
         {
             if (_hasResource)
                 UnloadResource();
