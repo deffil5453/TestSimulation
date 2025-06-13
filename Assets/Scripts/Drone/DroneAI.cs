@@ -12,10 +12,11 @@ public class DroneAI : MonoBehaviour
 
     [SerializeField] private NavMeshAgent _navMeshDrone;
 
-    [SerializeField] private bool _hasResource = 1 == 3;
+    [SerializeField] private bool _hasResource = false;
 
-    [SerializeField] private float _avoidRadius = 3f;
-    [SerializeField] private float _avoidForce = 1f;
+    [SerializeField] private float _avoidRadius = 1f;
+    [SerializeField] private float _avoidForce = 0.5f;
+    public ParticleSystem EffectUnload;
     void Start()
     {
         _navMeshDrone = GetComponent<NavMeshAgent>();
@@ -45,6 +46,7 @@ public class DroneAI : MonoBehaviour
 
     private void SearchResource()
     {
+        _time = 0f;
         GameObject[] resources = GameObject.FindGameObjectsWithTag("Crystal");
         float closestDistance = Mathf.Infinity;
         GameObject closestResource = null;
@@ -52,12 +54,12 @@ public class DroneAI : MonoBehaviour
         {
             foreach (var resource in resources)
             {
-                float distance = Vector3.Distance(transform.position, resource.transform.position);
-                if (distance < closestDistance)
-                {
-                    closestResource = resource;
-                    closestDistance = distance;
-                }
+                    float distance = Vector3.Distance(transform.position, resource.transform.position);
+                    if (distance < closestDistance)
+                    {
+                        closestResource = resource;
+                        closestDistance = distance;
+                    }
             }
             TargetResource = closestResource;
             _navMeshDrone.SetDestination(TargetResource.transform.position);
@@ -67,6 +69,7 @@ public class DroneAI : MonoBehaviour
     {
         _navMeshDrone.ResetPath();
         _time += Time.deltaTime;
+        
         if (_time >= _collectionTime)
         {
             Destroy(TargetResource);
@@ -77,6 +80,7 @@ public class DroneAI : MonoBehaviour
     }
     private void UnloadResource()
     {
+        Instantiate(EffectUnload, HomeBase.position, Quaternion.identity);
         _hasResource = false;
         SearchResource();
     }
