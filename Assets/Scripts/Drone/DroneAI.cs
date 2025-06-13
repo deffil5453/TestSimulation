@@ -100,7 +100,7 @@ public class DroneAI : MonoBehaviour
                     Vector3 away = transform.position - drone.transform.position;
                     if (distance > 0.01f)
                     {
-                        away /= distance; // нормализация и взвешивание по расстоянию
+                        away /= distance;
                     }
                     avoidanceVector += away;
                     nearbyDronesCount++;
@@ -113,12 +113,10 @@ public class DroneAI : MonoBehaviour
             Vector3 desiredPosition;
             if (_hasResource)
             {
-                // Цель - база, смещаем точку базы
                 desiredPosition = HomeBase.position + avoidanceVector * _avoidForce;
             }
             else if (TargetResource != null)
             {
-                // Цель - ресурс, смещаем точку ресурса
                 desiredPosition = TargetResource.transform.position + avoidanceVector * _avoidForce;
             }
             else
